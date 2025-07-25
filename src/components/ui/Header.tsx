@@ -1,6 +1,7 @@
 import { useAppStore } from "@/lib/store";
 import { AvatarDisplay } from "./AvatarDisplay"
 import { useRouter } from "next/navigation"
+import { LogOutIcon } from "lucide-react";
 
 export const Header = () => {
     const { currentUser, clearCurrentUser } = useAppStore()
@@ -21,9 +22,10 @@ export const Header = () => {
             <span className="text-white font-medium">{currentUser.name}</span>
             <button
                 onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold"
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
             >
-                Cerrar sesión
+                <LogOutIcon className="w-4 h-4" />
+                Salir
             </button>
         </div>
     )
