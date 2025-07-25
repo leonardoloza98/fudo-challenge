@@ -58,3 +58,14 @@ export const useCreateComment = (postId: string) => {
     },
   });
 };
+
+export const useDeleteComment = (postId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (commentId: string) => CommentService.deleteComment(postId, commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+    },
+  });
+};

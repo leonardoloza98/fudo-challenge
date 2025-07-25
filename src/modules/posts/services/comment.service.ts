@@ -47,4 +47,22 @@ export class CommentService {
       throw error;
     }
   }
+
+  static async deleteComment(postId: string, commentId: string): Promise<void> {
+    try {
+      const response = await fetch(`${API_ROUTES.POSTS.COMMENTS(postId)}/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+      throw error;
+    }
+  }
 }

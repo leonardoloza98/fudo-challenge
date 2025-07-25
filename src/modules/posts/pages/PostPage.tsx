@@ -1,6 +1,6 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
-import { useGetComments, useGetPostById, useCreateComment } from '../queries';
+import { useGetComments, useGetPostById, useCreateComment, useDeleteComment } from '../queries';
 import { Header } from '@/components/ui/Header';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
@@ -20,6 +20,7 @@ const PostPage = () => {
   } = useGetComments(id as string);
   const { mutate: createComment, isPending: isCreatingComment } =
     useCreateComment(id as string);
+  const { mutate: deleteComment, isPending: isDeletingComment } = useDeleteComment(id as string);
 
   const handleBack = () => {
     router.push('/posts');
@@ -33,6 +34,14 @@ const PostPage = () => {
     createComment(data, {
       onError: error => {
         console.error('Error creating comment:', error);
+      },
+    });
+  };
+
+  const handleDeleteComment = (commentId: string) => {
+    deleteComment(commentId, {
+      onError: error => {
+        console.error('Error deleting comment:', error);
       },
     });
   };
@@ -102,6 +111,8 @@ const PostPage = () => {
             error={commentsError}
             onCreateComment={handleCreateComment}
             isCreatingComment={isCreatingComment}
+            onDeleteComment={handleDeleteComment}
+            isDeletingComment={isDeletingComment}
           />
         </div>
       </div>
