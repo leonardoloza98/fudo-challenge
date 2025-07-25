@@ -1,6 +1,6 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
-import { useGetComments, useGetPostById } from '../queries';
+import { useGetComments, useGetPostById, useCreateComment } from '../queries';
 import { Header } from '@/components/ui/Header';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
@@ -18,8 +18,23 @@ const PostPage = () => {
     isLoading: isCommentsLoading,
     error: commentsError,
   } = useGetComments(id as string);
+  const { mutate: createComment, isPending: isCreatingComment } =
+    useCreateComment(id as string);
+
   const handleBack = () => {
     router.push('/posts');
+  };
+
+  const handleCreateComment = (data: {
+    content: string;
+    name: string;
+    avatar: string;
+  }) => {
+    createComment(data, {
+      onError: error => {
+        console.error('Error creating comment:', error);
+      },
+    });
   };
 
   if (isLoading) {
@@ -85,6 +100,8 @@ const PostPage = () => {
             comments={comments}
             isLoading={isCommentsLoading}
             error={commentsError}
+            onCreateComment={handleCreateComment}
+            isCreatingComment={isCreatingComment}
           />
         </div>
       </div>

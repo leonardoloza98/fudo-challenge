@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { PostService } from './services/post.service';
 import { CommentService } from './services/comment.service';
 import { CreatePostBody } from './models/post';
+import { Comment } from './models/comment';
 
 export const useGetPosts = () => {
   return useQuery({
@@ -42,6 +43,18 @@ export const useDeletePost = () => {
     mutationFn: (id: string) => PostService.deletePost(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+};
+
+export const useCreateComment = (postId: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: Partial<Comment>) =>
+      CommentService.createComment(postId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
     },
   });
 };

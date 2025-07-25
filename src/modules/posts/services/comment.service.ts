@@ -22,4 +22,29 @@ export class CommentService {
       throw error;
     }
   }
+
+  static async createComment(
+    postId: string,
+    data: Partial<Comment>
+  ): Promise<Comment> {
+    try {
+      const response = await fetch(API_ROUTES.POSTS.COMMENTS(postId), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const comment: Comment = await response.json();
+      return comment;
+    } catch (error) {
+      console.error('Error creating comment:', error);
+      throw error;
+    }
+  }
 }
