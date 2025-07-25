@@ -44,4 +44,20 @@ export class PostService {
       throw error
     }
   }
+
+  static async getPostById(id: string): Promise<Post> {
+    const response = await fetch(`${API_ROUTES.POSTS.LIST}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })  
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const post: Post = await response.json()
+    return post
+  }
 }

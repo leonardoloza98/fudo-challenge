@@ -19,3 +19,10 @@ export const useCreatePost = () => {
     },
   })
 }
+
+export const useGetPostById = (id: string) => {
+  return useQuery({
+    queryKey: ["post", id],
+    queryFn: () => PostService.getPostById(id),
+  })
+}

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button"
 import { Spinner } from "@/components/ui/Spinner"
 import { Modal } from "@/components/ui/Modal"
 import { CreatePostForm } from "@/modules/posts/components/CreatePostForm"
+import PostCard from "@/modules/posts/components/PostCard"
 import { PlusIcon } from "lucide-react"
 
 const PostListPage = () => {
@@ -75,13 +76,7 @@ const PostListPage = () => {
                     {posts && (
                         <div className="space-y-4">
                             {posts.map((post: Post) => (
-                                <div key={post.id} className="bg-gray-800/50 p-4 rounded-lg">
-                                    <h2 className="text-xl font-semibold text-white mb-2">{post.title}</h2>
-                                    <p className="text-gray-300 mb-2">{post.content}</p>
-                                    <div className="text-sm text-gray-400">
-                                        Por: {post.name} • {new Date(post.createdAt).toLocaleDateString()}
-                                    </div>
-                                </div>
+                                <PostCard key={post.id} post={post} />
                             ))}
                         </div>
                     )}
