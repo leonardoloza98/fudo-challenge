@@ -6,3 +6,15 @@ export interface Post {
   avatar: string
   createdAt: string
 }
+
+export interface CreatePostFormData {
+  title: string
+  content: string
+}
+
+export interface CreatePostBody {
+  title: string
+  content: string
+  name: string
+  avatar: string
+}

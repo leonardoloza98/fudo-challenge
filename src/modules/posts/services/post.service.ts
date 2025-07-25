@@ -22,4 +22,26 @@ export class PostService {
       throw error
     }
   }
+
+  static async createPost(data: { title: string; content: string }): Promise<Post> {
+    try {
+      const response = await fetch(API_ROUTES.POSTS.LIST, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const post: Post = await response.json()
+      return post
+    } catch (error) {
+      console.error("Error creating post:", error)
+      throw error
+    }
+  }
 }

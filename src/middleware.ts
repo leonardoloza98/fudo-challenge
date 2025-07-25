@@ -7,7 +7,12 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const userCookie = request.cookies.get('user')
 
-  const isPublicRoute = publicRoutes.some(route => pathname.startsWith(route))
+  const isPublicRoute = publicRoutes.some(route => {
+    if (route === '/') {
+      return pathname === '/'
+    }
+    return pathname.startsWith(route)
+  })
 
   if (pathname === '/' && userCookie) {
     return NextResponse.redirect(new URL('/posts', request.url))
