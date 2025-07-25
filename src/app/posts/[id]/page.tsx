@@ -1,14 +1,11 @@
-"use client"
-import { useParams } from "next/navigation"
-import PostPage from "@/modules/posts/pages/PostPage"
+'use client';
+import { useParams } from 'next/navigation';
+import PostPage from '@/modules/posts/pages/PostPage';
 
 function PostDetailPage() {
-    const { id } = useParams()
+  const { id } = useParams();
 
-    return (
-        <PostPage />
-    )
+  return <PostPage />;
 }
 
-
-export default PostDetailPage
+export default PostDetailPage;

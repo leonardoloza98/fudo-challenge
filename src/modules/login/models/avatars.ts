@@ -1,4 +1,4 @@
 export interface AvatarConfig {
-    style: string
-    seed: string
-  }
+  style: string;
+  seed: string;
+}

@@ -1,20 +1,20 @@
 export interface Post {
-  id: string
-  title: string
-  content: string
-  name: string
-  avatar: string
-  createdAt: string
+  id: string;
+  title: string;
+  content: string;
+  name: string;
+  avatar: string;
+  createdAt: string;
 }
 
 export interface CreatePostFormData {
-  title: string
-  content: string
+  title: string;
+  content: string;
 }
 
 export interface CreatePostBody {
-  title: string
-  content: string
-  name: string
-  avatar: string
+  title: string;
+  content: string;
+  name: string;
+  avatar: string;
 }

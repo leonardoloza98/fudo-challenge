@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { StoreProvider } from "@/lib/store"
-import { ReactNode } from "react"
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { StoreProvider } from '@/lib/store';
+import { ReactNode } from 'react';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -12,14 +12,12 @@ const queryClient = new QueryClient({
       retry: 1,
     },
   },
-})
+});
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider>
-        {children}
-      </StoreProvider>
+      <StoreProvider>{children}</StoreProvider>
     </QueryClientProvider>
-  )
-} 
+  );
+}
