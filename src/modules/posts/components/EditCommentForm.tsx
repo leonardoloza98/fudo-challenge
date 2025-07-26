@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { X } from 'lucide-react';
 
 interface EditCommentFormProps {
-  commentId: string;
   initialContent: string;
   onSubmit: (data: { content: string }) => void;
   onCancel: () => void;
@@ -14,17 +13,12 @@ interface EditCommentFormProps {
 }
 
 export default function EditCommentForm({
-  commentId,
   initialContent,
   onSubmit,
   onCancel,
   isLoading = false,
 }: EditCommentFormProps) {
   const [content, setContent] = useState(initialContent);
-
-  useEffect(() => {
-    setContent(initialContent);
-  }, [initialContent]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

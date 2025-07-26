@@ -47,11 +47,11 @@ export default function DeleteCommentModal({
 
         <div className="bg-gray-700/50 p-3 rounded-lg mb-6">
           <p className="text-gray-300 text-sm italic">
-            "
+            &ldquo;
             {commentContent.length > 100
               ? `${commentContent.substring(0, 100)}...`
               : commentContent}
-            "
+            &rdquo;
           </p>
         </div>
 

@@ -43,7 +43,7 @@ export default function CommentTree({
     }
   };
 
-  const renderCommentNode = (node: CommentNode, index: number) => {
+  const renderCommentNode = (node: CommentNode) => {
     return (
       <div key={node.comment.id} className="space-y-3">
         <div
@@ -68,8 +68,8 @@ export default function CommentTree({
 
         {node.children.length > 0 && (
           <div className="space-y-3">
-            {node.children.map((child, childIndex) =>
-              renderCommentNode(child, childIndex)
+            {node.children.map((child) =>
+              renderCommentNode(child)
             )}
           </div>
         )}
@@ -81,7 +81,7 @@ export default function CommentTree({
 
   return (
     <div className="space-y-4">
-      {commentTree.map((node, index) => renderCommentNode(node, index))}
+      {commentTree.map((node) => renderCommentNode(node))}
     </div>
   );
 }

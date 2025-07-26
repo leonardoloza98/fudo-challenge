@@ -1,7 +1,7 @@
 import { useAppStore } from '@/lib/store';
-import { AvatarDisplay } from './AvatarDisplay';
 import { useRouter } from 'next/navigation';
 import { LogOutIcon } from 'lucide-react';
+import { AvatarDisplay } from './AvatarDisplay';
 
 export const Header = () => {
   const { currentUser, clearCurrentUser } = useAppStore();

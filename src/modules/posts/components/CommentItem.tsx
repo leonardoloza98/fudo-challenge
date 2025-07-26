@@ -162,7 +162,6 @@ export default function CommentItem({
 
       {showEditForm && (
         <EditCommentForm
-          commentId={comment.id}
           initialContent={comment.content}
           onSubmit={handleEditSubmit}
           onCancel={handleEditCancel}

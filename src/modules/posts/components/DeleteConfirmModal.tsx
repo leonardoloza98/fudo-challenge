@@ -1,6 +1,6 @@
 'use client';
 
-import { Trash2, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 interface DeleteConfirmModalProps {
