@@ -29,7 +29,6 @@ export async function GET(
     );
 
     if (!response.ok) {
-      // Si es 404, probablemente no hay comentarios, devolvemos array vacío
       if (response.status === 404) {
         return NextResponse.json([]);
       }
@@ -59,7 +58,6 @@ export async function POST(
 
   try {
     const body = await request.json();
-    // Asegurarnos de que el avatar sea válido
     const processedBody = {
       ...body,
       avatar: body.avatar as AvatarId || 'cool-dev',

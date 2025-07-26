@@ -34,7 +34,6 @@ export async function GET(
 
     const post = await response.json();
 
-    // Obtener comentarios
     const commentsResponse = await fetch(
       `${API_URL}/post/${id}/comment`,
       {
@@ -49,14 +48,11 @@ export async function GET(
     if (commentsResponse.ok) {
       comments = await commentsResponse.json();
     } else if (commentsResponse.status !== 404) {
-      // Si es 404, probablemente no hay comentarios, lo cual está bien
-      // Pero si es otro error, lo registramos
       console.error(
         `Error fetching comments: ${commentsResponse.status}`
       );
     }
 
-    // Eliminar comentarios huérfanos
     comments = comments.filter((comment) => {
       return !comment.parentId || comments.some((c) => c.id === comment.parentId);
     });

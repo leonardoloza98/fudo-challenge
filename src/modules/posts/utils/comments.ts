@@ -10,7 +10,6 @@ export function buildCommentTree(comments: Comment[]): CommentNode[] {
   const commentMap = new Map<string, CommentNode>();
   const roots: CommentNode[] = [];
 
-  // Create nodes for all comments
   comments.forEach(comment => {
     commentMap.set(comment.id, {
       comment,
