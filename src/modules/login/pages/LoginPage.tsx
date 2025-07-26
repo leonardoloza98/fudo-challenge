@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Card } from '@/components/ui/Card';
@@ -18,7 +18,7 @@ type LoginFormData = {
 };
 
 export default function LoginPage() {
-  const { setCurrentUser, currentUser } = useAppStore();
+  const { setCurrentUser } = useAppStore();
   const router = useRouter();
 
   const {

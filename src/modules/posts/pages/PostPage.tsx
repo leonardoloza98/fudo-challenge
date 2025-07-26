@@ -1,6 +1,13 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
-import { useGetComments, useGetPostById, useCreateComment, useDeleteComment } from '../queries';
+import {
+  useGetComments,
+  useGetPostById,
+  useCreateComment,
+  useDeleteComment,
+  useUpdatePost,
+  useUpdateComment,
+} from '../queries';
 import { Header } from '@/components/ui/Header';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
@@ -20,7 +27,11 @@ const PostPage = () => {
   } = useGetComments(id as string);
   const { mutate: createComment, isPending: isCreatingComment } =
     useCreateComment(id as string);
-  const { mutate: deleteComment, isPending: isDeletingComment } = useDeleteComment(id as string);
+  const { mutate: deleteComment, isPending: isDeletingComment } =
+    useDeleteComment(id as string);
+  const { mutate: updatePost, isPending: isUpdatingPost } = useUpdatePost();
+  const { mutate: updateComment, isPending: isUpdatingComment } =
+    useUpdateComment(id as string);
 
   const handleBack = () => {
     router.push('/posts');
@@ -30,6 +41,7 @@ const PostPage = () => {
     content: string;
     name: string;
     avatar: string;
+    parentId?: string;
   }) => {
     createComment(data, {
       onError: error => {
@@ -44,6 +56,28 @@ const PostPage = () => {
         console.error('Error deleting comment:', error);
       },
     });
+  };
+
+  const handleEditPost = (data: { title: string; content: string }) => {
+    updatePost(
+      { id: id as string, data },
+      {
+        onError: error => {
+          console.error('Error updating post:', error);
+        },
+      }
+    );
+  };
+
+  const handleEditComment = (commentId: string, data: { content: string }) => {
+    updateComment(
+      { commentId, data },
+      {
+        onError: error => {
+          console.error('Error updating comment:', error);
+        },
+      }
+    );
   };
 
   if (isLoading) {
@@ -103,7 +137,12 @@ const PostPage = () => {
             </Button>
           </div>
 
-          <PostDetail post={post} commentsCount={comments?.length || 0} />
+          <PostDetail
+            post={post}
+            commentsCount={comments?.length || 0}
+            onEdit={handleEditPost}
+            isEditing={isUpdatingPost}
+          />
 
           <CommentsSection
             comments={comments}
@@ -113,6 +152,8 @@ const PostPage = () => {
             isCreatingComment={isCreatingComment}
             onDeleteComment={handleDeleteComment}
             isDeletingComment={isDeletingComment}
+            onEditComment={handleEditComment}
+            isEditingComment={isUpdatingComment}
           />
         </div>
       </div>

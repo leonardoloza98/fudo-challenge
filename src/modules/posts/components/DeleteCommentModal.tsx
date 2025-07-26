@@ -28,7 +28,9 @@ export default function DeleteCommentModal({
             <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
               <MessageCircle className="w-5 h-5 text-red-400" />
             </div>
-            <h3 className="text-xl font-semibold text-white">Eliminar comentario</h3>
+            <h3 className="text-xl font-semibold text-white">
+              Eliminar comentario
+            </h3>
           </div>
           <button
             onClick={onClose}
@@ -45,7 +47,11 @@ export default function DeleteCommentModal({
 
         <div className="bg-gray-700/50 p-3 rounded-lg mb-6">
           <p className="text-gray-300 text-sm italic">
-            "{commentContent.length > 100 ? `${commentContent.substring(0, 100)}...` : commentContent}"
+            &ldquo;
+            {commentContent.length > 100
+              ? `${commentContent.substring(0, 100)}...`
+              : commentContent}
+            &rdquo;
           </p>
         </div>
 
@@ -68,4 +74,4 @@ export default function DeleteCommentModal({
       </div>
     </div>
   );
-} 
+}

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Label } from '@/components/ui/Label';
 import { useAppStore } from '@/lib/store';
 
 interface CreateCommentFormProps {
@@ -34,25 +33,24 @@ export default function CreateCommentForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <h2 className="text-white">Tu comentario</h2>
-      <div className="flex gap-3">
+      <div className="flex items-center justify-center gap-3">
         <Input
           id="content"
           value={content}
           onChange={e => setContent(e.target.value)}
           placeholder="Escribe tu comentario..."
-          className="mt-1 bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
+          className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
           disabled={isLoading}
           required
         />
         <Button
-            type="submit"
-            disabled={isLoading || !content.trim()}
-            className="w-[150px]"
+          type="submit"
+          disabled={isLoading || !content.trim()}
+          className="w-[150px]"
         >
-            {isLoading ? 'Enviando...' : 'Comentar'}
+          {isLoading ? 'Enviando...' : 'Comentar'}
         </Button>
       </div>
-
     </form>
   );
 }

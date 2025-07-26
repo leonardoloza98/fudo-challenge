@@ -3,7 +3,7 @@
 import { Spinner } from '@/components/ui/Spinner';
 import { Comment } from '../models/comment';
 import CreateCommentForm from './CreateCommentForm';
-import CommentItem from './CommentItem';
+import CommentTree from './CommentTree';
 
 interface CommentsSectionProps {
   comments: Comment[] | undefined;
@@ -17,6 +17,8 @@ interface CommentsSectionProps {
   isCreatingComment?: boolean;
   onDeleteComment: (commentId: string) => void;
   isDeletingComment?: boolean;
+  onEditComment?: (commentId: string, data: { content: string }) => void;
+  isEditingComment?: boolean;
 }
 
 export default function CommentsSection({
@@ -27,6 +29,8 @@ export default function CommentsSection({
   isCreatingComment = false,
   onDeleteComment,
   isDeletingComment = false,
+  onEditComment,
+  isEditingComment = false,
 }: CommentsSectionProps) {
   if (isLoading) {
     return (
@@ -60,14 +64,15 @@ export default function CommentsSection({
 
       <div className="space-y-4">
         {comments && comments.length > 0 ? (
-          comments.map(comment => (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              onDelete={onDeleteComment}
-              isDeleting={isDeletingComment}
-            />
-          ))
+          <CommentTree
+            comments={comments}
+            onDelete={onDeleteComment}
+            isDeleting={isDeletingComment}
+            onCreateReply={onCreateComment}
+            isCreatingReply={isCreatingComment}
+            onEditComment={onEditComment}
+            isEditingComment={isEditingComment}
+          />
         ) : (
           <div className="mt-6 text-center py-8">
             <div className="text-gray-400 text-sm">No hay comentarios aún</div>
