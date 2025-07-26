@@ -8,11 +8,12 @@ import {
   useEffect,
 } from 'react';
 import Cookies from 'js-cookie';
+import { type AvatarId } from './avatars';
 
 export type User = {
   id: string;
   name: string;
-  avatar: { style: string; seed: string };
+  avatar: AvatarId;
 };
 
 type Store = {
@@ -24,23 +25,30 @@ type Store = {
 
 const StoreContext = createContext<Store | undefined>(undefined);
 
-export function StoreProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+interface StoreProviderProps {
+  children: ReactNode;
+  initialUser?: User;
+}
+
+export function StoreProvider({ children, initialUser }: StoreProviderProps) {
+  const [currentUser, setCurrentUser] = useState<User | null>(initialUser || null);
+  const [isLoading, setIsLoading] = useState(!initialUser);
 
   useEffect(() => {
-    const cookieUser = Cookies.get('user');
-    if (cookieUser) {
-      try {
-        const user = JSON.parse(cookieUser);
-        setCurrentUser(user);
-      } catch (error) {
-        console.error('Error parsing user cookie:', error);
-        Cookies.remove('user');
+    if (!initialUser) {
+      const cookieUser = Cookies.get('user');
+      if (cookieUser) {
+        try {
+          const user = JSON.parse(cookieUser);
+          setCurrentUser(user);
+        } catch (error) {
+          console.error('Error parsing user cookie:', error);
+          Cookies.remove('user');
+        }
       }
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, []);
+  }, [initialUser]);
 
   const setCurrentUserWithCookie = (user: User) => {
     Cookies.set('user', JSON.stringify(user), { expires: 7 });

@@ -4,6 +4,7 @@ import { Spinner } from '@/components/ui/Spinner';
 import { Comment } from '../models/comment';
 import CreateCommentForm from './CreateCommentForm';
 import CommentTree from './CommentTree';
+import { AvatarId } from '@/lib/avatars';
 
 interface CommentsSectionProps {
   comments: Comment[] | undefined;
@@ -12,7 +13,7 @@ interface CommentsSectionProps {
   onCreateComment: (data: {
     content: string;
     name: string;
-    avatar: string;
+    avatar: AvatarId;
   }) => void;
   isCreatingComment?: boolean;
   onDeleteComment: (commentId: string) => void;

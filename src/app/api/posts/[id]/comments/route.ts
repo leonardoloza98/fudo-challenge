@@ -1,4 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { type AvatarId } from '@/lib/avatars';
+import { API_URL } from '@/common/constants/config';
+
+interface Comment {
+  id: string;
+  content: string;
+  name: string;
+  avatar: string;
+  createdAt: string;
+  postId: string;
+}
 
 export async function GET(
   request: NextRequest,
@@ -8,7 +19,7 @@ export async function GET(
 
   try {
     const response = await fetch(
-      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}/comment`,
+      `${API_URL}/post/${id}/comment`,
       {
         method: 'GET',
         headers: {
@@ -18,7 +29,6 @@ export async function GET(
     );
 
     if (!response.ok) {
-      // Si es 404, probablemente no hay comentarios, devolvemos array vacío
       if (response.status === 404) {
         return NextResponse.json([]);
       }
@@ -26,7 +36,11 @@ export async function GET(
     }
 
     const comments = await response.json();
-    return NextResponse.json(comments);
+    const processedComments = comments.map((comment: Comment) => ({
+      ...comment,
+      avatar: comment.avatar as AvatarId || 'cool-dev',
+    }));
+    return NextResponse.json(processedComments);
   } catch (error) {
     console.error('Error in /api/posts/[id]/comments:', error);
     return NextResponse.json(
@@ -44,15 +58,19 @@ export async function POST(
 
   try {
     const body = await request.json();
+    const processedBody = {
+      ...body,
+      avatar: body.avatar as AvatarId || 'cool-dev',
+    };
 
     const response = await fetch(
-      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}/comment`,
+      `${API_URL}/post/${id}/comment`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(processedBody),
       }
     );
 

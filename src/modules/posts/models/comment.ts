@@ -1,8 +1,10 @@
+import { type AvatarId } from '@/lib/avatars';
+
 export interface Comment {
   id: string;
   content: string;
-  createdAt: string;
   name: string;
-  avatar: string;
+  avatar: AvatarId;
+  createdAt: string;
   parentId?: string;
 }

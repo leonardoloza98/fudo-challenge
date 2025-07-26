@@ -1,29 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { API_URL } from '@/common/constants/config';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-  const response = await fetch(
-    `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const post = await response.json();
-  return NextResponse.json(post);
+interface Comment {
+  id: string;
+  content: string;
+  name: string;
+  avatar: string;
+  createdAt: string;
+  postId: string;
+  parentId?: string;
 }
 
-export async function DELETE(
+export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
@@ -31,9 +19,9 @@ export async function DELETE(
 
   try {
     const response = await fetch(
-      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}`,
+      `${API_URL}/post/${id}`,
       {
-        method: 'DELETE',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -44,11 +32,36 @@ export async function DELETE(
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return NextResponse.json({ success: true });
+    const post = await response.json();
+
+    const commentsResponse = await fetch(
+      `${API_URL}/post/${id}/comment`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    let comments: Comment[] = [];
+    if (commentsResponse.ok) {
+      comments = await commentsResponse.json();
+    } else if (commentsResponse.status !== 404) {
+      console.error(
+        `Error fetching comments: ${commentsResponse.status}`
+      );
+    }
+
+    comments = comments.filter((comment) => {
+      return !comment.parentId || comments.some((c) => c.id === comment.parentId);
+    });
+
+    return NextResponse.json({ ...post, comments });
   } catch (error) {
-    console.error('Error in /api/posts/[id] DELETE:', error);
+    console.error('Error in /api/posts/[id]:', error);
     return NextResponse.json(
-      { error: 'Failed to delete post' },
+      { error: 'Failed to fetch post' },
       { status: 500 }
     );
   }
@@ -64,7 +77,7 @@ export async function PUT(
     const body = await request.json();
 
     const response = await fetch(
-      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}`,
+      `${API_URL}/post/${id}`,
       {
         method: 'PUT',
         headers: {
@@ -84,6 +97,37 @@ export async function PUT(
     console.error('Error in /api/posts/[id] PUT:', error);
     return NextResponse.json(
       { error: 'Failed to update post' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+
+  try {
+    const response = await fetch(
+      `${API_URL}/post/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error in /api/posts/[id] DELETE:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete post' },
       { status: 500 }
     );
   }

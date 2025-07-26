@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fudo Challenge
 
-## Getting Started
+Una aplicación Next.js para gestionar posts y comentarios.
 
-First, run the development server:
+## 🛠 Tecnologías
 
+- Next.js 15.4.4
+- React 19.1.0
+- TypeScript
+- Tailwind CSS
+- Docker
+
+## 🚀 Inicio Rápido
+
+### Desarrollo Local
+
+1. Instalar dependencias:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Crear archivo `.env.local`:
+```bash
+NEXT_PUBLIC_API_URL=https://665de6d7e88051d60408c32d.mockapi.io
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Iniciar servidor de desarrollo:
+```bash
+yarn dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+La aplicación estará disponible en `http://localhost:3000`
 
-## Learn More
+### 🐳 Usando Docker
 
-To learn more about Next.js, take a look at the following resources:
+#### Construir la imagen
+```bash
+docker build -t fudo-challenge .
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Ejecutar el contenedor
+```bash
+docker run -p 3000:3000 -d --name fudo-app fudo-challenge
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+La aplicación estará disponible en `http://localhost:3000`
 
-## Deploy on Vercel
+#### Comandos Docker útiles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Detener el contenedor:**
+  ```bash
+  docker stop fudo-app
+  ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Iniciar el contenedor existente:**
+  ```bash
+  docker start fudo-app
+  ```
+
+- **Eliminar el contenedor:**
+  ```bash
+  docker rm fudo-app
+  ```
+
+- **Ver logs del contenedor:**
+  ```bash
+  docker logs fudo-app
+  ```
+
+- **Ejecutar con una API diferente:**
+  ```bash
+  docker run -p 3000:3000 -d --name fudo-app --env NEXT_PUBLIC_API_URL=https://otra-api.com fudo-challenge
+  ```
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── app/              # App router y rutas de la API
+├── common/           # Constantes y utilidades compartidas
+├── components/       # Componentes reutilizables
+├── lib/             # Utilidades y configuraciones
+└── modules/         # Módulos de la aplicación
+    ├── login/       # Módulo de autenticación
+    └── posts/       # Módulo de posts y comentarios
+```
+
+## 🧪 Tests
+
+Para ejecutar los tests:
+```bash
+yarn test
+```
+
+## 🛠 Variables de Entorno
+
+| Variable | Descripción | Valor por defecto |
+|----------|-------------|-------------------|
+| `NEXT_PUBLIC_API_URL` | URL de la API | `https://665de6d7e88051d60408c32d.mockapi.io` |
+
+## 📝 Características
+
+- ✅ Autenticación con selección de avatar
+- ✅ CRUD de posts
+- ✅ Sistema de comentarios anidados
+- ✅ Diseño responsive
+- ✅ Tests unitarios
+- ✅ Dockerización

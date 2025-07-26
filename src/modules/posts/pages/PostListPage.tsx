@@ -20,10 +20,12 @@ const PostListPage = () => {
   const handleCreatePost = async (data: CreatePostFormData) => {
     createPost(
       {
+        id: crypto.randomUUID(),
         title: data.title,
         content: data.content,
         name: currentUser?.name || 'Anónimo',
-        avatar: currentUser?.avatar.seed || '',
+        avatar: currentUser?.avatar || '',
+        createdAt: new Date().toISOString(),
       },
       {
         onSuccess: () => {

@@ -22,13 +22,13 @@ export default function DeleteCommentModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl p-6 w-full max-w-md border border-gray-700/50 shadow-2xl">
+      <div role="dialog" aria-modal="true" aria-labelledby="modal-title" className="bg-gray-800/90 backdrop-blur-sm rounded-xl p-6 w-full max-w-md border border-gray-700/50 shadow-2xl">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
               <MessageCircle className="w-5 h-5 text-red-400" />
             </div>
-            <h3 className="text-xl font-semibold text-white">
+            <h3 id="modal-title" className="text-xl font-semibold text-white">
               Eliminar comentario
             </h3>
           </div>

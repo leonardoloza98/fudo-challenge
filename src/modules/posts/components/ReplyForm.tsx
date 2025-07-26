@@ -1,20 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { useAppStore } from '@/lib/store';
-import { X } from 'lucide-react';
+import { type AvatarId } from '@/lib/avatars';
+
+interface ReplyFormData {
+  content: string;
+  name: string;
+  avatar: AvatarId;
+  parentId: string;
+}
 
 interface ReplyFormProps {
   parentId: string;
-  onSubmit: (data: {
-    content: string;
-    name: string;
-    avatar: string;
-    parentId: string;
-  }) => void;
+  onSubmit: (data: ReplyFormData) => void;
   onCancel: () => void;
   isLoading?: boolean;
 }
@@ -26,56 +28,69 @@ export default function ReplyForm({
   isLoading = false,
 }: ReplyFormProps) {
   const { currentUser } = useAppStore();
-  const [content, setContent] = useState('');
+  const defaultAvatar = 'cool-dev' as const;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!content.trim()) return;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ReplyFormData>({
+    defaultValues: {
+      content: '',
+      name: currentUser?.name || '',
+      avatar: currentUser?.avatar || defaultAvatar,
+      parentId,
+    },
+  });
 
+  const onSubmitForm: SubmitHandler<ReplyFormData> = (data) => {
     onSubmit({
-      content: content.trim(),
-      name: currentUser?.name || 'Anónimo',
-      avatar: currentUser?.avatar.seed || '',
+      content: data.content,
+      name: currentUser?.name || '',
+      avatar: currentUser?.avatar || defaultAvatar,
       parentId,
     });
-
-    setContent('');
   };
 
   return (
-    <div className="bg-gray-700/30 p-4 rounded-lg border border-gray-600/30 mt-3">
-      <div className="flex items-center justify-between mb-3">
-        <Label className="text-white text-sm">Responder</Label>
-        <button
-          onClick={onCancel}
-          className="text-gray-400 hover:text-white transition-colors duration-200"
-          disabled={isLoading}
-        >
-          <X className="w-4 h-4" />
-        </button>
+    <form
+      onSubmit={handleSubmit(onSubmitForm)}
+      className="mt-4 bg-gray-800/30 p-4 rounded-lg border border-gray-700/30"
+    >
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="content">Tu respuesta</Label>
+          <Input
+            id="content"
+            {...register('content', {
+              required: 'El contenido es requerido',
+              minLength: {
+                value: 3,
+                message: 'El contenido debe tener al menos 3 caracteres',
+              },
+            })}
+            placeholder="Escribe tu respuesta..."
+            className="bg-gray-800/50 border-gray-600 text-white placeholder-gray-400"
+          />
+          {errors.content && (
+            <p className="text-red-400 text-sm mt-1">{errors.content.message}</p>
+          )}
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <Button
+            type="button"
+            onClick={onCancel}
+            className="bg-transparent border border-gray-600 hover:bg-gray-700"
+            disabled={isLoading}
+          >
+            Cancelar
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Enviando...' : 'Enviar respuesta'}
+          </Button>
+        </div>
       </div>
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex gap-3 items-center justify-center"
-      >
-        <Input
-          value={content}
-          onChange={e => setContent(e.target.value)}
-          placeholder="Escribe tu respuesta..."
-          className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
-          disabled={isLoading}
-          required
-        />
-
-        <Button
-          type="submit"
-          disabled={isLoading || !content.trim()}
-          className="w-[150px] bg-blue-600 hover:bg-blue-700"
-        >
-          {isLoading ? 'Enviando...' : 'Responder'}
-        </Button>
-      </form>
-    </div>
+    </form>
   );
 }

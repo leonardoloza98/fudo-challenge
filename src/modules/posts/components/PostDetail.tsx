@@ -62,10 +62,12 @@ export default function PostDetail({
             <span>•</span>
             <span>
               {new Date(post.createdAt).toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
             </span>
           </div>
         </div>

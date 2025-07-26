@@ -64,7 +64,13 @@ export default function PostCard({ post }: PostCardProps) {
         </h2>
         <p className="text-gray-300 mb-2">{post.content}</p>
         <div className="text-sm text-gray-400">
-          Por: {post.name} • {new Date(post.createdAt).toLocaleDateString()}
+          Por: {post.name} • {new Date(post.createdAt).toLocaleDateString('es-ES', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
         </div>
       </div>
 

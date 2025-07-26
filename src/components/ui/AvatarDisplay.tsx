@@ -1,45 +1,28 @@
 'use client';
 
-import { generateAvatarUrl, type AvatarConfig } from '@/lib/avatars';
-import { useState } from 'react';
+import { type AvatarId } from '@/lib/avatars';
+import { AVATAR_COMPONENTS } from './AvatarComponents';
 
 interface AvatarDisplayProps {
-  avatar: AvatarConfig;
+  avatarId: AvatarId;
   size?: number;
   className?: string;
 }
-const DEFAULT_AVATAR = '/placeholder.svg';
-export function AvatarDisplay({
-  avatar,
-  size = 40,
-  className = '',
-}: AvatarDisplayProps) {
-  const [imageError, setImageError] = useState(false);
-  const avatarUrl = generateAvatarUrl(avatar, size);
 
-  if (imageError) {
-    const fallbackUrl = generateAvatarUrl(
-      { style: 'initials', seed: avatar.seed },
-      size
-    );
-    return (
-      <img
-        src={fallbackUrl || DEFAULT_AVATAR}
-        alt="Avatar"
-        className={`rounded-full ${className}`}
-        style={{ width: size, height: size }}
-        onError={() => setImageError(false)}
-      />
-    );
-  }
+export function AvatarDisplay({
+  avatarId,
+  size = 40,
+  className = ''
+}: AvatarDisplayProps) {
+  const Component = AVATAR_COMPONENTS[avatarId];
+  if (!Component) return null;
 
   return (
-    <img
-      src={avatarUrl || DEFAULT_AVATAR}
-      alt="Avatar"
-      className={`rounded-full ${className}`}
+    <div 
+      className={`flex items-center justify-center ${className}`}
       style={{ width: size, height: size }}
-      onError={() => setImageError(true)}
-    />
+    >
+      <Component />
+    </div>
   );
 }

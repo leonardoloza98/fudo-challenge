@@ -8,57 +8,41 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import { AvatarSelector } from '@/modules/login/components/AvatarSelector';
-import { AvatarConfig } from '@/modules/login/models/avatars';
 import { useAppStore } from '@/lib/store';
 import { PATH_ROUTES } from '@/common/constants/routes';
+import { type AvatarId } from '@/lib/avatars';
 
 type LoginFormData = {
   name: string;
-  avatar: AvatarConfig;
 };
 
 export default function LoginPage() {
   const { setCurrentUser } = useAppStore();
   const router = useRouter();
+  const [selectedAvatar, setSelectedAvatar] = useState<AvatarId>('cool-dev');
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
     watch,
   } = useForm<LoginFormData>({
     defaultValues: {
       name: '',
-      avatar: {
-        style: 'avataaars',
-        seed: 'alex-smith',
-      },
     },
   });
-
-  const [selectedAvatar, setSelectedAvatar] = useState<AvatarConfig>({
-    style: 'avataaars',
-    seed: 'alex-smith',
-  });
-
-  const handleAvatarSelect = (avatar: AvatarConfig) => {
-    setSelectedAvatar(avatar);
-    setValue('avatar', avatar);
-  };
 
   const onSubmit = (data: LoginFormData) => {
     const user = {
       id: Date.now().toString(),
       name: data.name.trim(),
-      avatar: data.avatar,
+      avatar: selectedAvatar,
     };
     setCurrentUser(user);
     router.push(PATH_ROUTES.POSTS.LIST);
   };
 
   const name = watch('name');
-  const avatar = watch('avatar');
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
@@ -101,30 +85,13 @@ export default function LoginPage() {
             </Label>
             <AvatarSelector
               selectedAvatar={selectedAvatar}
-              onSelect={handleAvatarSelect}
+              onSelect={setSelectedAvatar}
             />
-            <input
-              type="hidden"
-              {...register('avatar', {
-                required: 'Debes seleccionar un avatar',
-                validate: value => {
-                  if (!value || !value.style || !value.seed) {
-                    return 'Debes seleccionar un avatar';
-                  }
-                  return true;
-                },
-              })}
-            />
-            {errors.avatar && (
-              <p className="text-red-400 text-sm mt-1">
-                {errors.avatar.message}
-              </p>
-            )}
           </div>
           <Button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
-            disabled={isSubmitting || !name?.trim() || !avatar?.seed}
+            disabled={isSubmitting || !name?.trim()}
           >
             {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </Button>

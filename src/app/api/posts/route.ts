@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { API_URL } from '@/common/constants/config';
 
 export async function GET() {
   try {
     const response = await fetch(
-      'https://665de6d7e88051d60408c32d.mockapi.io/post',
+      `${API_URL}/post`,
       {
         method: 'GET',
         headers: {
@@ -17,7 +18,6 @@ export async function GET() {
     }
 
     const posts = await response.json();
-
     return NextResponse.json(posts);
   } catch (error) {
     console.error('Error in /api/posts:', error);
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const response = await fetch(
-      'https://665de6d7e88051d60408c32d.mockapi.io/post',
+      `${API_URL}/post`,
       {
         method: 'POST',
         headers: {
@@ -48,7 +48,6 @@ export async function POST(request: NextRequest) {
     }
 
     const post = await response.json();
-
     return NextResponse.json(post);
   } catch (error) {
     console.error('Error in /api/posts POST:', error);
