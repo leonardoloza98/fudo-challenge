@@ -3,6 +3,7 @@
 import { Comment } from '../models/comment';
 import CommentItem from './CommentItem';
 import { buildCommentTree } from '@/modules/posts/utils/comments';
+import { type AvatarId } from '@/lib/avatars';
 
 interface CommentTreeProps {
   comments: Comment[];
@@ -11,7 +12,7 @@ interface CommentTreeProps {
   onCreateReply: (data: {
     content: string;
     name: string;
-    avatar: string;
+    avatar: AvatarId;
     parentId?: string;
   }) => void;
   isCreatingReply?: boolean;
@@ -36,7 +37,7 @@ export default function CommentTree({
 }: CommentTreeProps) {
   const handleReply = (
     parentId: string,
-    data?: { content: string; name: string; avatar: string }
+    data?: { content: string; name: string; avatar: AvatarId }
   ) => {
     if (data) {
       onCreateReply({ ...data, parentId });

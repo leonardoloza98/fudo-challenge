@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { type AvatarId } from '@/lib/avatars';
+import { API_URL } from '@/common/constants/config';
+
+interface Comment {
+  id: string;
+  content: string;
+  name: string;
+  avatar: string;
+  createdAt: string;
+  postId: string;
+}
 
 export async function GET(
   request: NextRequest,
@@ -9,7 +19,7 @@ export async function GET(
 
   try {
     const response = await fetch(
-      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}/comment`,
+      `${API_URL}/post/${id}/comment`,
       {
         method: 'GET',
         headers: {
@@ -27,7 +37,7 @@ export async function GET(
     }
 
     const comments = await response.json();
-    const processedComments = comments.map((comment: any) => ({
+    const processedComments = comments.map((comment: Comment) => ({
       ...comment,
       avatar: comment.avatar as AvatarId || 'cool-dev',
     }));
@@ -56,7 +66,7 @@ export async function POST(
     };
 
     const response = await fetch(
-      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}/comment`,
+      `${API_URL}/post/${id}/comment`,
       {
         method: 'POST',
         headers: {
