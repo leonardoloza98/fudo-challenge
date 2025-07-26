@@ -14,6 +14,7 @@ import { Spinner } from '@/components/ui/Spinner';
 import { ArrowLeft } from 'lucide-react';
 import CommentsSection from '../components/CommentsSection';
 import PostDetail from '../components/PostDetail';
+import { AvatarId } from '@/lib/avatars';
 
 const PostPage = () => {
   const { id } = useParams();
@@ -40,10 +41,10 @@ const PostPage = () => {
   const handleCreateComment = (data: {
     content: string;
     name: string;
-    avatar: string;
+    avatar: AvatarId;
     parentId?: string;
   }) => {
-    createComment(data, {
+    createComment({...data, id: crypto.randomUUID()}, {
       onError: error => {
         console.error('Error creating comment:', error);
       },

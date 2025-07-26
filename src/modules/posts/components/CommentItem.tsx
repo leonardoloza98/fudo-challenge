@@ -6,14 +6,16 @@ import { Comment } from '../models/comment';
 import DeleteCommentModal from './DeleteCommentModal';
 import ReplyForm from './ReplyForm';
 import EditCommentForm from './EditCommentForm';
+import { AvatarDisplay } from '@/components/ui/AvatarDisplay';
+import { type AvatarId } from '@/lib/avatars';
 
 interface CommentItemProps {
-  comment: Comment;
+  comment: Comment & { avatar: AvatarId };
   onDelete: (commentId: string) => void;
   isDeleting?: boolean;
   onReply?: (
     parentId: string,
-    data?: { content: string; name: string; avatar: string }
+    data?: { content: string; name: string; avatar: AvatarId }
   ) => void;
   isCreatingReply?: boolean;
   showReplyButton?: boolean;
@@ -57,7 +59,7 @@ export default function CommentItem({
   const handleReplySubmit = (data: {
     content: string;
     name: string;
-    avatar: string;
+    avatar: AvatarId;
     parentId: string;
   }) => {
     if (onReply) {
@@ -125,9 +127,7 @@ export default function CommentItem({
         </div>
 
         <div className="flex items-start gap-3 pr-8">
-          <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
-            {comment.name.charAt(0).toUpperCase()}
-          </div>
+          <AvatarDisplay avatarId={comment.avatar} size={32} />
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-white font-medium text-sm">

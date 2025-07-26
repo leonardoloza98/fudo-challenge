@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { type AvatarId } from '@/lib/avatars';
 
 export async function GET(
   request: NextRequest,
@@ -26,7 +27,11 @@ export async function GET(
     }
 
     const comments = await response.json();
-    return NextResponse.json(comments);
+    const processedComments = comments.map((comment: any) => ({
+      ...comment,
+      avatar: comment.avatar as AvatarId || 'cool-dev',
+    }));
+    return NextResponse.json(processedComments);
   } catch (error) {
     console.error('Error in /api/posts/[id]/comments:', error);
     return NextResponse.json(
@@ -44,6 +49,11 @@ export async function POST(
 
   try {
     const body = await request.json();
+    // Asegurarnos de que el avatar sea válido
+    const processedBody = {
+      ...body,
+      avatar: body.avatar as AvatarId || 'cool-dev',
+    };
 
     const response = await fetch(
       `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}/comment`,
@@ -52,7 +62,7 @@ export async function POST(
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(processedBody),
       }
     );
 

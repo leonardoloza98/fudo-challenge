@@ -30,6 +30,33 @@ export async function DELETE(
   const { id } = await params;
 
   try {
+    const commentsResponse = await fetch(
+      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}/comment`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (commentsResponse.ok) {
+      const comments = await commentsResponse.json();
+      await Promise.all(
+        comments.map((comment: { id: string }) =>
+          fetch(
+            `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}/comment/${comment.id}`,
+            {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            }
+          )
+        )
+      );
+    }
+
     const response = await fetch(
       `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}`,
       {

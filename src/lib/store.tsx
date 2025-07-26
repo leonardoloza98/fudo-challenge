@@ -8,11 +8,12 @@ import {
   useEffect,
 } from 'react';
 import Cookies from 'js-cookie';
+import { type AvatarId } from './avatars';
 
 export type User = {
   id: string;
   name: string;
-  avatar: { style: string; seed: string };
+  avatar: AvatarId;
 };
 
 type Store = {

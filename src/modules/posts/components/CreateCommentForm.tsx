@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useAppStore } from '@/lib/store';
+import { AvatarId } from '@/lib/avatars';
 
 interface CreateCommentFormProps {
-  onSubmit: (data: { content: string; name: string; avatar: string }) => void;
+  onSubmit: (data: { content: string; name: string; avatar: AvatarId }) => void;
   isLoading?: boolean;
 }
 
@@ -24,7 +25,7 @@ export default function CreateCommentForm({
     onSubmit({
       content: content.trim(),
       name: currentUser?.name || 'Anónimo',
-      avatar: currentUser?.avatar.seed || '',
+      avatar: currentUser?.avatar || 'cool-dev',
     });
 
     setContent('');
