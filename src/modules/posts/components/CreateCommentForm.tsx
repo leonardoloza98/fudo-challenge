@@ -45,14 +45,13 @@ export default function CreateCommentForm({
           required
         />
         <Button
-            type="submit"
-            disabled={isLoading || !content.trim()}
-            className="w-[150px]"
+          type="submit"
+          disabled={isLoading || !content.trim()}
+          className="w-[150px]"
         >
-            {isLoading ? 'Enviando...' : 'Comentar'}
+          {isLoading ? 'Enviando...' : 'Comentar'}
         </Button>
       </div>
-
     </form>
   );
 }

@@ -1,6 +1,13 @@
 'use client';
 import { useParams, useRouter } from 'next/navigation';
-import { useGetComments, useGetPostById, useCreateComment, useDeleteComment, useUpdatePost, useUpdateComment } from '../queries';
+import {
+  useGetComments,
+  useGetPostById,
+  useCreateComment,
+  useDeleteComment,
+  useUpdatePost,
+  useUpdateComment,
+} from '../queries';
 import { Header } from '@/components/ui/Header';
 import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
@@ -20,9 +27,11 @@ const PostPage = () => {
   } = useGetComments(id as string);
   const { mutate: createComment, isPending: isCreatingComment } =
     useCreateComment(id as string);
-  const { mutate: deleteComment, isPending: isDeletingComment } = useDeleteComment(id as string);
+  const { mutate: deleteComment, isPending: isDeletingComment } =
+    useDeleteComment(id as string);
   const { mutate: updatePost, isPending: isUpdatingPost } = useUpdatePost();
-  const { mutate: updateComment, isPending: isUpdatingComment } = useUpdateComment(id as string);
+  const { mutate: updateComment, isPending: isUpdatingComment } =
+    useUpdateComment(id as string);
 
   const handleBack = () => {
     router.push('/posts');
@@ -128,8 +137,8 @@ const PostPage = () => {
             </Button>
           </div>
 
-          <PostDetail 
-            post={post} 
+          <PostDetail
+            post={post}
             commentsCount={comments?.length || 0}
             onEdit={handleEditPost}
             isEditing={isUpdatingPost}

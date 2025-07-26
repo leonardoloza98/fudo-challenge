@@ -11,22 +11,25 @@ interface CommentItemProps {
   comment: Comment;
   onDelete: (commentId: string) => void;
   isDeleting?: boolean;
-  onReply?: (parentId: string, data?: { content: string; name: string; avatar: string }) => void;
+  onReply?: (
+    parentId: string,
+    data?: { content: string; name: string; avatar: string }
+  ) => void;
   isCreatingReply?: boolean;
   showReplyButton?: boolean;
   onEdit?: (commentId: string, data: { content: string }) => void;
   isEditing?: boolean;
 }
 
-export default function CommentItem({ 
-  comment, 
-  onDelete, 
+export default function CommentItem({
+  comment,
+  onDelete,
   isDeleting = false,
   onReply,
   isCreatingReply = false,
   showReplyButton = false,
   onEdit,
-  isEditing = false
+  isEditing = false,
 }: CommentItemProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
@@ -51,9 +54,18 @@ export default function CommentItem({
     setShowReplyForm(true);
   };
 
-  const handleReplySubmit = (data: { content: string; name: string; avatar: string; parentId: string }) => {
+  const handleReplySubmit = (data: {
+    content: string;
+    name: string;
+    avatar: string;
+    parentId: string;
+  }) => {
     if (onReply) {
-      onReply(comment.id, { content: data.content, name: data.name, avatar: data.avatar });
+      onReply(comment.id, {
+        content: data.content,
+        name: data.name,
+        avatar: data.avatar,
+      });
     }
     setShowReplyForm(false);
   };
@@ -118,7 +130,9 @@ export default function CommentItem({
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-white font-medium text-sm">{comment.name}</span>
+              <span className="text-white font-medium text-sm">
+                {comment.name}
+              </span>
               <span className="text-gray-500 text-xs">•</span>
               <span className="text-gray-400 text-xs">
                 {new Date(comment.createdAt).toLocaleDateString('es-ES', {
@@ -165,4 +179,4 @@ export default function CommentItem({
       />
     </>
   );
-} 
+}

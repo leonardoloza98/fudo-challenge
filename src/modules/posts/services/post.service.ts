@@ -77,7 +77,10 @@ export class PostService {
     }
   }
 
-  static async updatePost(id: string, data: { title: string; content: string }): Promise<Post> {
+  static async updatePost(
+    id: string,
+    data: { title: string; content: string }
+  ): Promise<Post> {
     try {
       const response = await fetch(`${API_ROUTES.POSTS.LIST}/${id}`, {
         method: 'PUT',

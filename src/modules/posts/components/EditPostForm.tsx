@@ -13,7 +13,12 @@ interface EditPostFormProps {
   isLoading?: boolean;
 }
 
-export default function EditPostForm({ post, onSubmit, onCancel, isLoading = false }: EditPostFormProps) {
+export default function EditPostForm({
+  post,
+  onSubmit,
+  onCancel,
+  isLoading = false,
+}: EditPostFormProps) {
   const [title, setTitle] = useState(post.title);
   const [content, setContent] = useState(post.content);
 
@@ -41,7 +46,7 @@ export default function EditPostForm({ post, onSubmit, onCancel, isLoading = fal
         <Input
           id="title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={e => setTitle(e.target.value)}
           placeholder="Título del post..."
           className="mt-1 bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
           disabled={isLoading}
@@ -56,7 +61,7 @@ export default function EditPostForm({ post, onSubmit, onCancel, isLoading = fal
         <textarea
           id="content"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={e => setContent(e.target.value)}
           placeholder="Contenido del post..."
           className="mt-1 w-full bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 resize-none"
           rows={6}
@@ -83,4 +88,4 @@ export default function EditPostForm({ post, onSubmit, onCancel, isLoading = fal
       </div>
     </form>
   );
-} 
+}

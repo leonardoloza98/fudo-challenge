@@ -23,7 +23,10 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error in /api/posts/[id]/comments/[commentId] DELETE:', error);
+    console.error(
+      'Error in /api/posts/[id]/comments/[commentId] DELETE:',
+      error
+    );
     return NextResponse.json(
       { error: 'Failed to delete comment' },
       { status: 500 }
@@ -64,4 +67,4 @@ export async function PUT(
       { status: 500 }
     );
   }
-} 
+}

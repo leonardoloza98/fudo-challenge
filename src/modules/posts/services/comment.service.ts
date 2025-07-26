@@ -50,12 +50,15 @@ export class CommentService {
 
   static async deleteComment(postId: string, commentId: string): Promise<void> {
     try {
-      const response = await fetch(`${API_ROUTES.POSTS.COMMENTS(postId)}/${commentId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `${API_ROUTES.POSTS.COMMENTS(postId)}/${commentId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -66,15 +69,22 @@ export class CommentService {
     }
   }
 
-  static async updateComment(postId: string, commentId: string, data: { content: string }): Promise<Comment> {
+  static async updateComment(
+    postId: string,
+    commentId: string,
+    data: { content: string }
+  ): Promise<Comment> {
     try {
-      const response = await fetch(`${API_ROUTES.POSTS.COMMENTS(postId)}/${commentId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `${API_ROUTES.POSTS.COMMENTS(postId)}/${commentId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

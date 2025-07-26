@@ -9,12 +9,22 @@ import { X } from 'lucide-react';
 
 interface ReplyFormProps {
   parentId: string;
-  onSubmit: (data: { content: string; name: string; avatar: string; parentId: string }) => void;
+  onSubmit: (data: {
+    content: string;
+    name: string;
+    avatar: string;
+    parentId: string;
+  }) => void;
   onCancel: () => void;
   isLoading?: boolean;
 }
 
-export default function ReplyForm({ parentId, onSubmit, onCancel, isLoading = false }: ReplyFormProps) {
+export default function ReplyForm({
+  parentId,
+  onSubmit,
+  onCancel,
+  isLoading = false,
+}: ReplyFormProps) {
   const { currentUser } = useAppStore();
   const [content, setContent] = useState('');
 
@@ -44,25 +54,28 @@ export default function ReplyForm({ parentId, onSubmit, onCancel, isLoading = fa
           <X className="w-4 h-4" />
         </button>
       </div>
-      
-      <form onSubmit={handleSubmit} className="flex gap-3 items-center justify-center">
+
+      <form
+        onSubmit={handleSubmit}
+        className="flex gap-3 items-center justify-center"
+      >
         <Input
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={e => setContent(e.target.value)}
           placeholder="Escribe tu respuesta..."
           className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
           disabled={isLoading}
           required
         />
 
-          <Button
-            type="submit"
-            disabled={isLoading || !content.trim()}
-            className="w-[150px] bg-blue-600 hover:bg-blue-700"
-          >
-            {isLoading ? 'Enviando...' : 'Responder'}
-          </Button>
+        <Button
+          type="submit"
+          disabled={isLoading || !content.trim()}
+          className="w-[150px] bg-blue-600 hover:bg-blue-700"
+        >
+          {isLoading ? 'Enviando...' : 'Responder'}
+        </Button>
       </form>
     </div>
   );
-} 
+}

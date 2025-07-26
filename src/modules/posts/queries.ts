@@ -51,8 +51,13 @@ export const useUpdatePost = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: { title: string; content: string } }) =>
-      PostService.updatePost(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: { title: string; content: string };
+    }) => PostService.updatePost(id, data),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       queryClient.invalidateQueries({ queryKey: ['post', id] });
@@ -76,7 +81,8 @@ export const useDeleteComment = (postId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (commentId: string) => CommentService.deleteComment(postId, commentId),
+    mutationFn: (commentId: string) =>
+      CommentService.deleteComment(postId, commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
     },
@@ -87,8 +93,13 @@ export const useUpdateComment = (postId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ commentId, data }: { commentId: string; data: { content: string } }) =>
-      CommentService.updateComment(postId, commentId, data),
+    mutationFn: ({
+      commentId,
+      data,
+    }: {
+      commentId: string;
+      data: { content: string };
+    }) => CommentService.updateComment(postId, commentId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
     },

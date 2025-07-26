@@ -13,12 +13,12 @@ interface EditCommentFormProps {
   isLoading?: boolean;
 }
 
-export default function EditCommentForm({ 
-  commentId, 
-  initialContent, 
-  onSubmit, 
-  onCancel, 
-  isLoading = false 
+export default function EditCommentForm({
+  commentId,
+  initialContent,
+  onSubmit,
+  onCancel,
+  isLoading = false,
 }: EditCommentFormProps) {
   const [content, setContent] = useState(initialContent);
 
@@ -38,7 +38,9 @@ export default function EditCommentForm({
   return (
     <div className="bg-gray-700/30 p-4 rounded-lg border border-gray-600/30 mt-3">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-white text-sm font-medium">Editar comentario</span>
+        <span className="text-white text-sm font-medium">
+          Editar comentario
+        </span>
         <button
           onClick={onCancel}
           className="text-gray-400 hover:text-white transition-colors duration-200"
@@ -47,11 +49,11 @@ export default function EditCommentForm({
           <X className="w-4 h-4" />
         </button>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="flex gap-3 items-center">
         <Input
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={e => setContent(e.target.value)}
           placeholder="Editar comentario..."
           className="flex-1 bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
           disabled={isLoading}
@@ -68,4 +70,4 @@ export default function EditCommentForm({
       </form>
     </div>
   );
-} 
+}
