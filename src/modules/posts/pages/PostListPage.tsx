@@ -25,6 +25,7 @@ const PostListPage = () => {
         content: data.content,
         name: currentUser?.name || 'Anónimo',
         avatar: currentUser?.avatar || '',
+        createdAt: new Date().toISOString(),
       },
       {
         onSuccess: () => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
@@ -28,6 +28,7 @@ export default function ReplyForm({
   isLoading = false,
 }: ReplyFormProps) {
   const { currentUser } = useAppStore();
+  const defaultAvatar = 'cool-dev' as const;
 
   const {
     register,
@@ -37,14 +38,23 @@ export default function ReplyForm({
     defaultValues: {
       content: '',
       name: currentUser?.name || '',
-      avatar: currentUser?.avatar || 'cool-dev',
+      avatar: currentUser?.avatar || defaultAvatar,
       parentId,
     },
   });
 
+  const onSubmitForm: SubmitHandler<ReplyFormData> = (data) => {
+    onSubmit({
+      content: data.content,
+      name: currentUser?.name || '',
+      avatar: currentUser?.avatar || defaultAvatar,
+      parentId,
+    });
+  };
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmitForm)}
       className="mt-4 bg-gray-800/30 p-4 rounded-lg border border-gray-700/30"
     >
       <div className="space-y-4">

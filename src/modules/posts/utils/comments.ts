@@ -1,4 +1,4 @@
-import { Comment } from '@/modules/posts/models/comment';
+import { type Comment } from '../models/comment';
 
 interface CommentNode {
   comment: Comment;
@@ -6,21 +6,22 @@ interface CommentNode {
   level: number;
 }
 
-export const buildCommentTree = (comments: Comment[]): CommentNode[] => {
+export function buildCommentTree(comments: Comment[]): CommentNode[] {
   const commentMap = new Map<string, CommentNode>();
   const roots: CommentNode[] = [];
 
+  // Create nodes for all comments
   comments.forEach(comment => {
     commentMap.set(comment.id, {
       comment,
       children: [],
-      level: 0,
+      level: 0
     });
   });
 
   comments.forEach(comment => {
     const node = commentMap.get(comment.id)!;
-
+    
     if (comment.parentId) {
       const parent = commentMap.get(comment.parentId);
       if (parent) {
@@ -35,4 +36,4 @@ export const buildCommentTree = (comments: Comment[]): CommentNode[] => {
   });
 
   return roots;
-};
+}

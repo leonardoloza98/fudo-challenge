@@ -18,4 +18,5 @@ export interface CreatePostBody {
   content: string;
   name: string;
   avatar: string;
+  createdAt: string;
 }
