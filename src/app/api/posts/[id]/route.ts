@@ -53,3 +53,38 @@ export async function DELETE(
     );
   }
 }
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+
+  try {
+    const body = await request.json();
+
+    const response = await fetch(
+      `https://665de6d7e88051d60408c32d.mockapi.io/post/${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const post = await response.json();
+    return NextResponse.json(post);
+  } catch (error) {
+    console.error('Error in /api/posts/[id] PUT:', error);
+    return NextResponse.json(
+      { error: 'Failed to update post' },
+      { status: 500 }
+    );
+  }
+}

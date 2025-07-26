@@ -17,6 +17,8 @@ interface CommentsSectionProps {
   isCreatingComment?: boolean;
   onDeleteComment: (commentId: string) => void;
   isDeletingComment?: boolean;
+  onEditComment?: (commentId: string, data: { content: string }) => void;
+  isEditingComment?: boolean;
 }
 
 export default function CommentsSection({
@@ -27,6 +29,8 @@ export default function CommentsSection({
   isCreatingComment = false,
   onDeleteComment,
   isDeletingComment = false,
+  onEditComment,
+  isEditingComment = false,
 }: CommentsSectionProps) {
   if (isLoading) {
     return (
@@ -66,6 +70,8 @@ export default function CommentsSection({
             isDeleting={isDeletingComment}
             onCreateReply={onCreateComment}
             isCreatingReply={isCreatingComment}
+            onEditComment={onEditComment}
+            isEditingComment={isEditingComment}
           />
         ) : (
           <div className="mt-6 text-center py-8">

@@ -76,4 +76,26 @@ export class PostService {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
   }
+
+  static async updatePost(id: string, data: { title: string; content: string }): Promise<Post> {
+    try {
+      const response = await fetch(`${API_ROUTES.POSTS.LIST}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const post: Post = await response.json();
+      return post;
+    } catch (error) {
+      console.error('Error updating post:', error);
+      throw error;
+    }
+  }
 }

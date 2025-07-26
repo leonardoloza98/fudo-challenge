@@ -65,4 +65,26 @@ export class CommentService {
       throw error;
     }
   }
+
+  static async updateComment(postId: string, commentId: string, data: { content: string }): Promise<Comment> {
+    try {
+      const response = await fetch(`${API_ROUTES.POSTS.COMMENTS(postId)}/${commentId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const comment: Comment = await response.json();
+      return comment;
+    } catch (error) {
+      console.error('Error updating comment:', error);
+      throw error;
+    }
+  }
 }

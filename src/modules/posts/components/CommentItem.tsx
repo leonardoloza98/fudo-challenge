@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Trash2, MessageCircle } from 'lucide-react';
+import { Trash2, MessageCircle, Edit2 } from 'lucide-react';
 import { Comment } from '../models/comment';
 import DeleteCommentModal from './DeleteCommentModal';
 import ReplyForm from './ReplyForm';
+import EditCommentForm from './EditCommentForm';
 
 interface CommentItemProps {
   comment: Comment;
@@ -13,6 +14,8 @@ interface CommentItemProps {
   onReply?: (parentId: string, data?: { content: string; name: string; avatar: string }) => void;
   isCreatingReply?: boolean;
   showReplyButton?: boolean;
+  onEdit?: (commentId: string, data: { content: string }) => void;
+  isEditing?: boolean;
 }
 
 export default function CommentItem({ 
@@ -21,10 +24,13 @@ export default function CommentItem({
   isDeleting = false,
   onReply,
   isCreatingReply = false,
-  showReplyButton = false
+  showReplyButton = false,
+  onEdit,
+  isEditing = false
 }: CommentItemProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showReplyForm, setShowReplyForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -56,6 +62,22 @@ export default function CommentItem({
     setShowReplyForm(false);
   };
 
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowEditForm(true);
+  };
+
+  const handleEditSubmit = (data: { content: string }) => {
+    if (onEdit) {
+      onEdit(comment.id, data);
+    }
+    setShowEditForm(false);
+  };
+
+  const handleEditCancel = () => {
+    setShowEditForm(false);
+  };
+
   return (
     <>
       <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700/30 relative group">
@@ -68,6 +90,16 @@ export default function CommentItem({
               title="Responder comentario"
             >
               <MessageCircle className="w-4 h-4" />
+            </button>
+          )}
+          {onEdit && (
+            <button
+              onClick={handleEditClick}
+              disabled={isEditing}
+              className="p-1.5 text-gray-400 hover:text-yellow-400 hover:bg-yellow-500/10 rounded-md transition-colors duration-200"
+              title="Editar comentario"
+            >
+              <Edit2 className="w-4 h-4" />
             </button>
           )}
           <button
@@ -111,6 +143,16 @@ export default function CommentItem({
           onSubmit={handleReplySubmit}
           onCancel={handleReplyCancel}
           isLoading={isCreatingReply}
+        />
+      )}
+
+      {showEditForm && (
+        <EditCommentForm
+          commentId={comment.id}
+          initialContent={comment.content}
+          onSubmit={handleEditSubmit}
+          onCancel={handleEditCancel}
+          isLoading={isEditing}
         />
       )}
 

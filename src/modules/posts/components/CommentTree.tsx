@@ -9,6 +9,8 @@ interface CommentTreeProps {
   isDeleting?: boolean;
   onCreateReply: (data: { content: string; name: string; avatar: string; parentId?: string }) => void;
   isCreatingReply?: boolean;
+  onEditComment?: (commentId: string, data: { content: string }) => void;
+  isEditingComment?: boolean;
 }
 
 export default function CommentTree({ 
@@ -16,7 +18,9 @@ export default function CommentTree({
   onDelete, 
   isDeleting = false,
   onCreateReply,
-  isCreatingReply = false 
+  isCreatingReply = false,
+  onEditComment,
+  isEditingComment = false
 }: CommentTreeProps) {
   const handleReply = (parentId: string, data?: { content: string; name: string; avatar: string }) => {
     if (data) {
@@ -72,6 +76,8 @@ export default function CommentTree({
             onReply={handleReply}
             isCreatingReply={isCreatingReply}
             showReplyButton={true}
+            onEdit={onEditComment}
+            isEditing={isEditingComment}
           />
         </div>
         
