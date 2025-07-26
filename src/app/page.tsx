@@ -1,5 +1,5 @@
-import LoginPage from "@/modules/login/pages/LoginPage"
+import LoginPage from '@/modules/login/pages/LoginPage';
 
 export default function HomePage() {
-  return <LoginPage />
+  return <LoginPage />;
 }

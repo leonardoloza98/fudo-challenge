@@ -1,7 +1,7 @@
-import PostListPage from "@/modules/posts/pages/PostListPage"
+import PostListPage from '@/modules/posts/pages/PostListPage';
 
 function PostsPage() {
-    return <PostListPage />
+  return <PostListPage />;
 }
 
-export default PostsPage
+export default PostsPage;

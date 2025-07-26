@@ -1,20 +1,27 @@
-"use client"
+'use client';
 
-import { generateAvatarUrl, type AvatarConfig } from "@/lib/avatars"
-import { useState } from "react"
+import { generateAvatarUrl, type AvatarConfig } from '@/lib/avatars';
+import { useState } from 'react';
 
 interface AvatarDisplayProps {
-  avatar: AvatarConfig
-  size?: number
-  className?: string
+  avatar: AvatarConfig;
+  size?: number;
+  className?: string;
 }
-const DEFAULT_AVATAR = "/placeholder.svg"
-export function AvatarDisplay({ avatar, size = 40, className = "" }: AvatarDisplayProps) {
-  const [imageError, setImageError] = useState(false)
-  const avatarUrl = generateAvatarUrl(avatar, size)
+const DEFAULT_AVATAR = '/placeholder.svg';
+export function AvatarDisplay({
+  avatar,
+  size = 40,
+  className = '',
+}: AvatarDisplayProps) {
+  const [imageError, setImageError] = useState(false);
+  const avatarUrl = generateAvatarUrl(avatar, size);
 
   if (imageError) {
-    const fallbackUrl = generateAvatarUrl({ style: "initials", seed: avatar.seed }, size)
+    const fallbackUrl = generateAvatarUrl(
+      { style: 'initials', seed: avatar.seed },
+      size
+    );
     return (
       <img
         src={fallbackUrl || DEFAULT_AVATAR}
@@ -23,7 +30,7 @@ export function AvatarDisplay({ avatar, size = 40, className = "" }: AvatarDispl
         style={{ width: size, height: size }}
         onError={() => setImageError(false)}
       />
-    )
+    );
   }
 
   return (
@@ -34,5 +41,5 @@ export function AvatarDisplay({ avatar, size = 40, className = "" }: AvatarDispl
       style={{ width: size, height: size }}
       onError={() => setImageError(true)}
     />
-  )
+  );
 }
