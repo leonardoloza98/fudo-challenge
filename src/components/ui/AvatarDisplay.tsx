@@ -20,7 +20,12 @@ export function AvatarDisplay({
   return (
     <div 
       className={`flex items-center justify-center ${className}`}
-      style={{ width: size, height: size }}
+      style={{ 
+        width: size, 
+        height: size,
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)'
+      }}
     >
       <Component />
     </div>

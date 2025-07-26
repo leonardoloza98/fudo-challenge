@@ -17,9 +17,9 @@ export const Header = () => {
   }
 
   return (
-    <div className="flex items-center justify-end gap-4 p-4">
+    <div className="flex items-end justify-end gap-4 p-4">
       <AvatarDisplay avatarId={currentUser.avatar} size={40} />
-      <span className="text-white font-medium">{currentUser.name}</span>
+      <span className="text-white font-medium pb-1">{currentUser.name}</span>
       <button
         onClick={handleLogout}
         className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
