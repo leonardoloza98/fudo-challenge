@@ -1,18 +1,30 @@
 'use client';
 
 import { useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import { Trash2, MessageCircle } from 'lucide-react';
 import { Comment } from '../models/comment';
 import DeleteCommentModal from './DeleteCommentModal';
+import ReplyForm from './ReplyForm';
 
 interface CommentItemProps {
   comment: Comment;
   onDelete: (commentId: string) => void;
   isDeleting?: boolean;
+  onReply?: (parentId: string, data?: { content: string; name: string; avatar: string }) => void;
+  isCreatingReply?: boolean;
+  showReplyButton?: boolean;
 }
 
-export default function CommentItem({ comment, onDelete, isDeleting = false }: CommentItemProps) {
+export default function CommentItem({ 
+  comment, 
+  onDelete, 
+  isDeleting = false,
+  onReply,
+  isCreatingReply = false,
+  showReplyButton = false
+}: CommentItemProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
 
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -28,10 +40,36 @@ export default function CommentItem({ comment, onDelete, isDeleting = false }: C
     setShowDeleteModal(false);
   };
 
+  const handleReplyClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowReplyForm(true);
+  };
+
+  const handleReplySubmit = (data: { content: string; name: string; avatar: string; parentId: string }) => {
+    if (onReply) {
+      onReply(comment.id, { content: data.content, name: data.name, avatar: data.avatar });
+    }
+    setShowReplyForm(false);
+  };
+
+  const handleReplyCancel = () => {
+    setShowReplyForm(false);
+  };
+
   return (
     <>
       <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700/30 relative group">
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-1">
+          {showReplyButton && (
+            <button
+              onClick={handleReplyClick}
+              disabled={isCreatingReply}
+              className="p-1.5 text-gray-400 hover:text-blue-400 hover:bg-blue-500/10 rounded-md transition-colors duration-200"
+              title="Responder comentario"
+            >
+              <MessageCircle className="w-4 h-4" />
+            </button>
+          )}
           <button
             onClick={handleDeleteClick}
             disabled={isDeleting}
@@ -66,6 +104,15 @@ export default function CommentItem({ comment, onDelete, isDeleting = false }: C
           </div>
         </div>
       </div>
+
+      {showReplyForm && (
+        <ReplyForm
+          parentId={comment.id}
+          onSubmit={handleReplySubmit}
+          onCancel={handleReplyCancel}
+          isLoading={isCreatingReply}
+        />
+      )}
 
       <DeleteCommentModal
         isOpen={showDeleteModal}

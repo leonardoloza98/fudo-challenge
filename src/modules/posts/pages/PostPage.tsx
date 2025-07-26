@@ -30,6 +30,7 @@ const PostPage = () => {
     content: string;
     name: string;
     avatar: string;
+    parentId?: string;
   }) => {
     createComment(data, {
       onError: error => {

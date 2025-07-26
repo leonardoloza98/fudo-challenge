@@ -3,7 +3,7 @@
 import { Spinner } from '@/components/ui/Spinner';
 import { Comment } from '../models/comment';
 import CreateCommentForm from './CreateCommentForm';
-import CommentItem from './CommentItem';
+import CommentTree from './CommentTree';
 
 interface CommentsSectionProps {
   comments: Comment[] | undefined;
@@ -60,14 +60,13 @@ export default function CommentsSection({
 
       <div className="space-y-4">
         {comments && comments.length > 0 ? (
-          comments.map(comment => (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              onDelete={onDeleteComment}
-              isDeleting={isDeletingComment}
-            />
-          ))
+          <CommentTree
+            comments={comments}
+            onDelete={onDeleteComment}
+            isDeleting={isDeletingComment}
+            onCreateReply={onCreateComment}
+            isCreatingReply={isCreatingComment}
+          />
         ) : (
           <div className="mt-6 text-center py-8">
             <div className="text-gray-400 text-sm">No hay comentarios aún</div>
