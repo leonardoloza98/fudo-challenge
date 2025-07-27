@@ -3,7 +3,7 @@
 import { type ReactNode } from 'react';
 
 interface ActionButtonProps {
-  onClick: () => void;
+  onClick: (e?: React.MouseEvent) => void;
   disabled?: boolean;
   title: string;
   variant?: 'default' | 'danger' | 'warning' | 'success';

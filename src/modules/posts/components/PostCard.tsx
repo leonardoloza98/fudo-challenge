@@ -7,11 +7,10 @@ import { type Post } from '../models/post';
 import { AvatarDisplay } from '@/components/ui/AvatarDisplay';
 import { ActionButton } from '@/components/ui/ActionButton';
 import DeleteConfirmModal from './DeleteConfirmModal';
-import { type AvatarId } from '@/lib/avatars';
 import { DateDisplay } from '@/components/ui/DateDisplay';
 
 interface PostCardProps {
-  post: Post & { avatar: AvatarId };
+  post: Post;
   onDelete?: (postId: string) => void;
   isDeleting?: boolean;
 }
@@ -28,7 +27,8 @@ export default function PostCard({
     router.push(`/posts/${post.id}`);
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setShowDeleteModal(true);
   };
 
@@ -50,7 +50,6 @@ export default function PostCard({
         className="bg-gray-800/50 p-4 rounded-lg border border-gray-700/30 relative group cursor-pointer hover:bg-gray-800/70 transition-colors duration-200"
       >
         <div className="absolute top-3 right-3">
-          {onDelete && (
             <ActionButton
               onClick={handleDeleteClick}
               disabled={isDeleting}
@@ -59,7 +58,6 @@ export default function PostCard({
             >
               <Trash2 className="w-4 h-4" />
             </ActionButton>
-          )}
         </div>
 
         <div className="flex items-start gap-3 pr-8">

@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useCreatePost, useGetPosts } from '../queries';
+import { useCreatePost, useDeletePost, useGetPosts } from '../queries';
 import { useAppStore } from '@/lib/store';
 import { CreatePostFormData, Post } from '../models/post';
 import { Header } from '@/components/ui/Header';
@@ -15,7 +15,12 @@ const PostListPage = () => {
   const { isLoading, currentUser } = useAppStore();
   const { data: posts, isLoading: postsLoading, error } = useGetPosts();
   const { mutate: createPost, isPending: isCreating } = useCreatePost();
+  const { mutate: deletePost } = useDeletePost();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDeletePost = (postId: string) => {
+    deletePost(postId);
+  };
 
   const handleCreatePost = async (data: CreatePostFormData) => {
     createPost(
@@ -24,7 +29,7 @@ const PostListPage = () => {
         title: data.title,
         content: data.content,
         name: currentUser?.name || 'Anónimo',
-        avatar: currentUser?.avatar || '',
+        avatar: currentUser?.avatar || 'cool-dev',
         createdAt: new Date().toISOString(),
       },
       {
@@ -83,7 +88,7 @@ const PostListPage = () => {
           {posts && (
             <div className="space-y-4">
               {posts.map((post: Post) => (
-                <PostCard key={post.id} post={post} />
+                <PostCard key={post.id} post={post} onDelete={handleDeletePost} />
               ))}
             </div>
           )}
