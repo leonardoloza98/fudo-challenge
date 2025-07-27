@@ -45,7 +45,7 @@ const PostListPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="flex flex-col items-center gap-4">
           <Spinner size="lg" />
           <div className="text-white text-lg">Cargando...</div>
@@ -55,7 +55,7 @@ const PostListPage = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       <div className="p-6">
         <Header />
         <div className="p-4">
