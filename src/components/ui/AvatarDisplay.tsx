@@ -23,8 +23,12 @@ export function AvatarDisplay({
       style={{ 
         width: size, 
         height: size,
-        transform: 'translateZ(0)',
-        WebkitTransform: 'translateZ(0)'
+        WebkitBackfaceVisibility: 'hidden',
+        backfaceVisibility: 'hidden',
+        WebkitPerspective: 1000,
+        perspective: 1000,
+        WebkitTransform: 'translate3d(0,0,0)',
+        transform: 'translate3d(0,0,0)'
       }}
     >
       <Component />

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Edit2 } from 'lucide-react';
 import { Post } from '../models/post';
 import EditPostForm from './EditPostForm';
+import { DateDisplay } from '@/components/ui/DateDisplay';
 
 interface PostDetailProps {
   post: Post;
@@ -60,15 +61,7 @@ export default function PostDetail({
           </div>
           <div className="flex items-center gap-2">
             <span>•</span>
-            <span>
-              {new Date(post.createdAt).toLocaleDateString('es-ES', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-            </span>
+            <DateDisplay date={post.createdAt} />
           </div>
         </div>
       </header>
