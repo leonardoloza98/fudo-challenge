@@ -83,7 +83,7 @@ const PostPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="flex flex-col items-center gap-4">
           <Spinner size="lg" />
           <div className="text-white text-lg">Cargando post...</div>
@@ -94,7 +94,7 @@ const PostPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="text-center">
           <div className="text-red-400 text-xl mb-4">
             Error al cargar el post
@@ -111,7 +111,7 @@ const PostPage = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="text-center">
           <div className="text-gray-400 text-xl mb-4">Post no encontrado</div>
           <Button onClick={handleBack}>
@@ -124,7 +124,7 @@ const PostPage = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       <div className="p-6">
         <Header />
         <div className="p-4">
