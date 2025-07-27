@@ -1,9 +1,11 @@
+import { type AvatarId } from '@/lib/avatars';
+
 export interface Post {
   id: string;
   title: string;
   content: string;
   name: string;
-  avatar: string;
+  avatar: AvatarId;
   createdAt: string;
 }
 
@@ -17,6 +19,6 @@ export interface CreatePostBody {
   title: string;
   content: string;
   name: string;
-  avatar: string;
+  avatar: AvatarId;
   createdAt: string;
 }

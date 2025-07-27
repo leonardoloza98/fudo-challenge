@@ -3,37 +3,39 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Trash2 } from 'lucide-react';
-import { useDeletePost } from '../queries';
+import { type Post } from '../models/post';
+import { AvatarDisplay } from '@/components/ui/AvatarDisplay';
+import { ActionButton } from '@/components/ui/ActionButton';
 import DeleteConfirmModal from './DeleteConfirmModal';
-
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  name: string;
-  createdAt: string;
-}
+import { DateDisplay } from '@/components/ui/DateDisplay';
 
 interface PostCardProps {
   post: Post;
+  onDelete?: (postId: string) => void;
+  isDeleting?: boolean;
 }
 
-export default function PostCard({ post }: PostCardProps) {
-  const router = useRouter();
-  const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
+export default function PostCard({
+  post,
+  onDelete,
+  isDeleting = false,
+}: PostCardProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
     router.push(`/posts/${post.id}`);
   };
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleDeleteClick = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setShowDeleteModal(true);
   };
 
   const handleConfirmDelete = () => {
-    deletePost(post.id);
+    if (onDelete) {
+      onDelete(post.id);
+    }
     setShowDeleteModal(false);
   };
 
@@ -44,33 +46,37 @@ export default function PostCard({ post }: PostCardProps) {
   return (
     <>
       <div
-        key={post.id}
-        className="bg-gray-800/50 p-4 rounded-lg cursor-pointer hover:bg-gray-700/50 transition-colors duration-200 relative group"
         onClick={handleClick}
+        className="bg-gray-800/50 p-4 rounded-lg border border-gray-700/30 relative group cursor-pointer hover:bg-gray-800/70 transition-colors duration-200"
       >
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <button
-            onClick={handleDeleteClick}
-            disabled={isDeleting}
-            className="p-1.5 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-md transition-colors duration-200"
-            title="Eliminar post"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
+        <div className="absolute top-3 right-3">
+            <ActionButton
+              onClick={handleDeleteClick}
+              disabled={isDeleting}
+              title="Eliminar post"
+              variant="danger"
+            >
+              <Trash2 className="w-4 h-4" />
+            </ActionButton>
         </div>
 
-        <h2 className="text-xl font-semibold text-white mb-2 pr-8">
-          {post.title}
-        </h2>
-        <p className="text-gray-300 mb-2">{post.content}</p>
-        <div className="text-sm text-gray-400">
-          Por: {post.name} • {new Date(post.createdAt).toLocaleDateString('es-ES', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
+        <div className="flex items-start gap-3 pr-8">
+          <AvatarDisplay avatarId={post.avatar} size={40} />
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-white font-medium text-sm">
+                {post.name}
+              </span>
+              <span className="text-gray-500 text-xs">•</span>
+              <DateDisplay date={post.createdAt} className="text-gray-400 text-xs" />
+            </div>
+            <h2 className="text-white font-semibold text-lg mb-2">
+              {post.title}
+            </h2>
+            <div className="text-gray-300 text-sm leading-relaxed">
+              {post.content}
+            </div>
+          </div>
         </div>
       </div>
 
